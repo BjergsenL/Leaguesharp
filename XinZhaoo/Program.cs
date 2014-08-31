@@ -72,6 +72,11 @@ namespace XinZhao
             {
                 Combo();
             }
+            if (AN.Item("ActivateKs").GetValue<bool>())
+            {
+                KillSteal();
+            }
+
         }
 
         static void Drawing_OnDraw(EventArgs args)
