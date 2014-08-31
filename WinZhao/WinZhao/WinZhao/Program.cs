@@ -8,7 +8,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 using Color = System.Drawing.Color;
-namespace XinZhao
+namespace WinZhao
 {
     class Program
     {
@@ -20,7 +20,7 @@ namespace XinZhao
         public static Items.Item tiamat = new Items.Item(3077, 400);
         public static Items.Item BoRK = new Items.Item(3153, 400);
         private static SpellSlot IgniteSlot;
-        
+
 
         public static Menu AN;
         static void Main(string[] args)
@@ -36,7 +36,7 @@ namespace XinZhao
             W = new Spell(SpellSlot.W, 0);
             E = new Spell(SpellSlot.E, 600);
             R = new Spell(SpellSlot.R, 180);
-           
+
 
             //Base menu
             AN = new Menu("AN" + ChampName, ChampName, true);
@@ -57,7 +57,7 @@ namespace XinZhao
             AN.AddSubMenu(new Menu("KillSteal", "Ks"));
             AN.SubMenu("Ks").AddItem(new MenuItem("ActiveKs", "Use KillSteal")).SetValue(true);
             AN.SubMenu("Ks").AddItem(new MenuItem("UseRKs", "Use R")).SetValue(true);
-            
+
 
 
             Drawing.OnDraw += Drawing_OnDraw; // Add onDraw
@@ -112,20 +112,22 @@ namespace XinZhao
                 E.Cast(target);
             }
             //if (target.IsValidTarget(R.Range) && R.IsReady() && Player.Distance(target)>= R.Range)
-              //  if (target.Health < Rdmg)
-           // {
-              //  R.Cast();
-            }
+            //  if (target.Health < Rdmg)
+            // {
+            //  R.Cast();
+        }
 
-        public static void Killsteal()
+        public static void KillSteal()
         {
             var target = SimpleTs.GetTarget(R.Range, SimpleTs.DamageType.Physical);
             var igniteDmg = DamageLib.getDmg(target, DamageLib.SpellType.IGNITE);
             var RDmg = DamageLib.getDmg(target, DamageLib.SpellType.R);
-             
+
             {
-                if (AN.Item("UseRKS").GetValue<bool>() && target != null && R.IsReady() && Player.Distance(target)<= R.Range) {
-                    if (target.Health < RDmg){
+                if (AN.Item("UseRKS").GetValue<bool>() && target != null && R.IsReady() && Player.Distance(target) <= R.Range)
+                {
+                    if (target.Health < RDmg)
+                    {
                         R.Cast();
                     }
                 }
@@ -136,5 +138,5 @@ namespace XinZhao
 
         }
 
-        }
     }
+}
