@@ -19,6 +19,8 @@ namespace XinZhao
         public static Items.Item hydra = new Items.Item(3074, 400);
         public static Items.Item tiamat = new Items.Item(3077, 400);
         public static Items.Item BoRK = new Items.Item(3153, 400);
+        private static SpellSlot IgniteSlot;
+        
 
         public static Menu AN;
         static void Main(string[] args)
@@ -34,6 +36,8 @@ namespace XinZhao
             W = new Spell(SpellSlot.W, 0);
             E = new Spell(SpellSlot.E, 600);
             R = new Spell(SpellSlot.R, 180);
+           
+
             //Base menu
             AN = new Menu("AN" + ChampName, ChampName, true);
             //Orbwalker and menu
@@ -48,12 +52,13 @@ namespace XinZhao
             AN.SubMenu("Combo").AddItem(new MenuItem("useQ", "Use Q?").SetValue(true));
             AN.SubMenu("Combo").AddItem(new MenuItem("useW", "Use W?").SetValue(true));
             AN.SubMenu("Combo").AddItem(new MenuItem("useE", "Use E?").SetValue(true));
-            //AN.SubMenu("Combo").AddItem(new MenuItem("useR", "Use R?").SetValue(true));  // adding this later
             AN.SubMenu("Combo").AddItem(new MenuItem("ComboActive", "Combo").SetValue(new KeyBind(32, KeyBindType.Press)));
-            //Exploits
-            //AN.AddItem(new MenuItem("NFE", "No-Face Exploit").SetValue(true));
-            //Make the menu visible
-            //AN.AddToMainMenu();
+            //KS Menu
+            AN.AddSubMenu(new Menu("KillSteal", "Ks"));
+            AN.SubMenu("Ks").AddItem(new MenuItem("ActiveKs", "Use KillSteal")).SetValue(true);
+            AN.SubMenu("Ks").AddItem(new MenuItem("UseRKs", "Use R")).SetValue(true);
+            
+
 
             Drawing.OnDraw += Drawing_OnDraw; // Add onDraw
             Game.OnGameUpdate += Game_OnGameUpdate; // adds OnGameUpdate (Same as onTick in bol)
@@ -76,7 +81,7 @@ namespace XinZhao
 
         public static void Combo()
         {
-            var target = SimpleTs.GetTarget(Q.Range, SimpleTs.DamageType.Physical);
+            var target = SimpleTs.GetTarget(E.Range, SimpleTs.DamageType.Physical);
             if (target == null) return;
 
             if (target.IsValidTarget(hydra.Range) && hydra.IsReady())
@@ -101,11 +106,30 @@ namespace XinZhao
             {
                 E.Cast(target);
             }
-            //if (target.IsValidTarget(E.Range) && R.IsReady())
+            //if (target.IsValidTarget(R.Range) && R.IsReady() && Player.Distance(target)>= R.Range)
+              //  if (target.Health < Rdmg)
            // {
-           //     R.Cast();
-          //  }
+              //  R.Cast();
+            }
+
+        public static void Killsteal()
+        {
+            var target = SimpleTs.GetTarget(R.Range, SimpleTs.DamageType.Physical);
+            var igniteDmg = DamageLib.getDmg(target, DamageLib.SpellType.IGNITE);
+            var RDmg = DamageLib.getDmg(target, DamageLib.SpellType.R);
+             
+            {
+                if (AN.Item("UseRKS").GetValue<bool>() && target != null && R.IsReady() && Player.Distance(target)<= R.Range) {
+                    if (target.Health < RDmg){
+                        R.Cast();
+                    }
+                }
+            }
+
+
+
+
+        }
 
         }
     }
-}
