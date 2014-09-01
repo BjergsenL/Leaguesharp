@@ -1,0 +1,15 @@
+c:\users\baradie\documents\visual studio 2012\Projects\WinZhao\WinZhao\bin\Debug\WinZhao.exe.config
+c:\users\baradie\documents\visual studio 2012\Projects\WinZhao\WinZhao\bin\Debug\WinZhao.exe
+c:\users\baradie\documents\visual studio 2012\Projects\WinZhao\WinZhao\bin\Debug\WinZhao.pdb
+c:\users\baradie\documents\visual studio 2012\Projects\WinZhao\WinZhao\bin\Debug\clipper_library.dll
+c:\users\baradie\documents\visual studio 2012\Projects\WinZhao\WinZhao\bin\Debug\LeagueSharp.Common.dll
+c:\users\baradie\documents\visual studio 2012\Projects\WinZhao\WinZhao\bin\Debug\LeagueSharp.dll
+c:\users\baradie\documents\visual studio 2012\Projects\WinZhao\WinZhao\bin\Debug\SharpDX.Direct3D9.dll
+c:\users\baradie\documents\visual studio 2012\Projects\WinZhao\WinZhao\bin\Debug\SharpDX.dll
+c:\users\baradie\documents\visual studio 2012\Projects\WinZhao\WinZhao\bin\Debug\SharpDX.Toolkit.dll
+c:\users\baradie\documents\visual studio 2012\Projects\WinZhao\WinZhao\bin\Debug\SharpDX.Toolkit.Graphics.dll
+c:\users\baradie\documents\visual studio 2012\Projects\WinZhao\WinZhao\bin\Debug\SharpDX.Toolkit.xml
+c:\users\baradie\documents\visual studio 2012\Projects\WinZhao\WinZhao\bin\Debug\SharpDX.Toolkit.Graphics.xml
+c:\users\baradie\documents\visual studio 2012\Projects\WinZhao\WinZhao\obj\Debug\WinZhao.csprojResolveAssemblyReference.cache
+c:\users\baradie\documents\visual studio 2012\Projects\WinZhao\WinZhao\obj\Debug\WinZhao.exe
+c:\users\baradie\documents\visual studio 2012\Projects\WinZhao\WinZhao\obj\Debug\WinZhao.pdb
