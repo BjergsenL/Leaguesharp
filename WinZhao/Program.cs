@@ -12,7 +12,7 @@ namespace WinZhao
 {
     class Program
     {
-        public static string ChampName = "Xin Zhao";
+        public static string ChampName = "XinZhao";
         public static Orbwalking.Orbwalker Orbwalker;
         public static Obj_AI_Base Player = ObjectManager.Player; // Instead of typing ObjectManager.Player you can just type Player
         public static Spell Q, W, E, R;
