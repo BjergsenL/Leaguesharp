@@ -53,11 +53,12 @@ namespace WinZhao
             AN.SubMenu("Combo").AddItem(new MenuItem("useW", "Use W?").SetValue(true));
             AN.SubMenu("Combo").AddItem(new MenuItem("useE", "Use E?").SetValue(true));
             AN.SubMenu("Combo").AddItem(new MenuItem("ComboActive", "Combo").SetValue(new KeyBind(32, KeyBindType.Press)));
+            
             //KS Menu
             AN.AddSubMenu(new Menu("KillSteal", "Ks"));
             AN.SubMenu("Ks").AddItem(new MenuItem("ActiveKs", "Use KillSteal")).SetValue(true);
             AN.SubMenu("Ks").AddItem(new MenuItem("UseRKs", "Use R")).SetValue(true);
-
+            AN.AddToMainMenu();
 
 
             Drawing.OnDraw += Drawing_OnDraw; // Add onDraw
@@ -124,7 +125,7 @@ namespace WinZhao
             var RDmg = DamageLib.getDmg(target, DamageLib.SpellType.R);
 
             {
-                if (AN.Item("UseRKS").GetValue<bool>() && target != null && R.IsReady() && Player.Distance(target) <= R.Range)
+                if (AN.Item("UseRKS").GetValue<bool>() && target != null && R.IsReady() && target.IsValidTarget(180))
                 {
                     if (target.Health < RDmg)
                     {
@@ -140,3 +141,6 @@ namespace WinZhao
 
     }
 }
+
+
+//credits to fluxy for helping me with almost everything <3, snorflake for his template and tutorials.
