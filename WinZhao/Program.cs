@@ -53,13 +53,17 @@ namespace WinZhao
             AN.SubMenu("Combo").AddItem(new MenuItem("useW", "Use W?").SetValue(true));
             AN.SubMenu("Combo").AddItem(new MenuItem("useE", "Use E?").SetValue(true));
             AN.SubMenu("Combo").AddItem(new MenuItem("ComboActive", "Combo").SetValue(new KeyBind(32, KeyBindType.Press)));
-            
+
             //KS Menu
             AN.AddSubMenu(new Menu("KillSteal", "Ks"));
             AN.SubMenu("Ks").AddItem(new MenuItem("ActiveKs", "Use KillSteal")).SetValue(true);
             AN.SubMenu("Ks").AddItem(new MenuItem("UseRKs", "Use R")).SetValue(true);
-            AN.AddToMainMenu();
 
+            //Drawings
+            AN.AddSubMenu(new Menu("Drawings", "Drawings"));
+            AN.SubMenu("Drawings").AddItem(new MenuItem("DrawE", "Draw E")).SetValue(true);
+
+            AN.AddToMainMenu();
 
             Drawing.OnDraw += Drawing_OnDraw; // Add onDraw
             Game.OnGameUpdate += Game_OnGameUpdate; // adds OnGameUpdate (Same as onTick in bol)
@@ -82,7 +86,10 @@ namespace WinZhao
 
         static void Drawing_OnDraw(EventArgs args)
         {
-            Utility.DrawCircle(Player.Position, E.Range, Color.Crimson);
+            if (AN.Item("DrawE").GetValue<bool>())
+            {
+                Utility.DrawCircle(Player.Position, E.Range, Color.Crimson);
+            }
         }
 
         public static void Combo()
