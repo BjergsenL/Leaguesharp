@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
 using Color = System.Drawing.Color;
+
 namespace WinZhao
 {
     class Program
@@ -19,7 +14,6 @@ namespace WinZhao
         public static Items.Item hydra = new Items.Item(3074, 400);
         public static Items.Item tiamat = new Items.Item(3077, 400);
         public static Items.Item BoRK = new Items.Item(3153, 400);
-        private static SpellSlot IgniteSlot;
 
 
         public static Menu AN;
@@ -58,12 +52,8 @@ namespace WinZhao
             AN.AddSubMenu(new Menu("KillSteal", "Ks"));
             AN.SubMenu("Ks").AddItem(new MenuItem("ActiveKs", "Use KillSteal")).SetValue(true);
             AN.SubMenu("Ks").AddItem(new MenuItem("UseRKs", "Use R")).SetValue(true);
-
-            //Drawings
-            AN.AddSubMenu(new Menu("Drawings", "Drawings"));
-            AN.SubMenu("Drawings").AddItem(new MenuItem("DrawE", "Draw E")).SetValue(true);
-
             AN.AddToMainMenu();
+
 
             Drawing.OnDraw += Drawing_OnDraw; // Add onDraw
             Game.OnGameUpdate += Game_OnGameUpdate; // adds OnGameUpdate (Same as onTick in bol)
@@ -86,10 +76,7 @@ namespace WinZhao
 
         static void Drawing_OnDraw(EventArgs args)
         {
-            if (AN.Item("DrawE").GetValue<bool>())
-            {
-                Utility.DrawCircle(Player.Position, E.Range, Color.Crimson);
-            }
+            Utility.DrawCircle(Player.Position, E.Range, Color.Crimson);
         }
 
         public static void Combo()
@@ -128,8 +115,8 @@ namespace WinZhao
         public static void KillSteal()
         {
             var target = SimpleTs.GetTarget(R.Range, SimpleTs.DamageType.Physical);
-            var igniteDmg = DamageLib.getDmg(target, DamageLib.SpellType.IGNITE);
-            var RDmg = DamageLib.getDmg(target, DamageLib.SpellType.R);
+            var igniteDmg = Damage.GetSummonerSpellDamage(ObjectManager.Player, target, Damage.SummonerSpell.Ignite);
+            var RDmg = Damage.GetSpellDamage(ObjectManager.Player, target, SpellSlot.R);
 
             {
                 if (AN.Item("UseRKS").GetValue<bool>() && target != null && R.IsReady() && target.IsValidTarget(180))
