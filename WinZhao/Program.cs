@@ -115,8 +115,8 @@ namespace WinZhao
         public static void KillSteal()
         {
             var target = SimpleTs.GetTarget(R.Range, SimpleTs.DamageType.Physical);
-            var igniteDmg = Damage.GetSummonerSpellDamage(ObjectManager.Player, target, Damage.SummonerSpell.Ignite);
-            var RDmg = Damage.GetSpellDamage(ObjectManager.Player, target, SpellSlot.R);
+            var igniteDmg = ObjectManager.Player.GetSummonerSpellDamage(target, Damage.SummonerSpell.Ignite);
+            var RDmg = ObjectManager.Player.GetSpellDamage(target, SpellSlot.R);
 
             {
                 if (AN.Item("UseRKS").GetValue<bool>() && target != null && R.IsReady() && target.IsValidTarget(180))
