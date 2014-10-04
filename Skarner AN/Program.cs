@@ -1,13 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using LeagueSharp;
 using LeagueSharp.Common;
-
-using SharpDX;
 using Color = System.Drawing.Color;
 
 namespace ANSkarner
@@ -74,10 +69,10 @@ namespace ANSkarner
             AN.SubMenu("killSteal").AddItem(new MenuItem("useEKS", "Use E").SetValue(true));
 
             //Clear/Farm
-           //AddSubMenu(new Menu("Farming", "Lane/Jungle Clear"));
-           //N.SubMenu("Farming").AddItem(new MenuItem("useQF", "Use Q").SetValue(true));
-           //N.SubMenu("Farming").AddItem(new MenuItem("useEF", "Use E").SetValue(true));
-           //N.SubMenu("Farming").AddItem(new MenuItem("LaneClear", "LaneClear").SetValue(new KeyBind("V".ToCharArray()[0], KeyBindType.Press)));
+            //AddSubMenu(new Menu("Farming", "Lane/Jungle Clear"));
+            //N.SubMenu("Farming").AddItem(new MenuItem("useQF", "Use Q").SetValue(true));
+            //N.SubMenu("Farming").AddItem(new MenuItem("useEF", "Use E").SetValue(true));
+            //N.SubMenu("Farming").AddItem(new MenuItem("LaneClear", "LaneClear").SetValue(new KeyBind("V".ToCharArray()[0], KeyBindType.Press)));
 
 
 
@@ -89,9 +84,9 @@ namespace ANSkarner
 
         private static void Drawing_OnDraw(EventArgs args)
         {
-            Utility.DrawCircle(Player.Position, Q.Range,Color.Azure);
+            Utility.DrawCircle(Player.Position, Q.Range, Color.Azure);
             Utility.DrawCircle(Player.Position, E.Range, Color.Ivory);
-            
+
         }
         static void Game_OnGameUpdate(EventArgs args)
         {
@@ -111,36 +106,36 @@ namespace ANSkarner
                 KS();
             if (useEKS)
                 KS();
-          
+
         }
         private static void Combo()
         {
             var target = SimpleTs.GetTarget(E.Range, SimpleTs.DamageType.Physical);
             if (target == null) return;
 
-            if (target.IsValidTarget(Q.Range) && Q.IsReady()) ;
+            if (target.IsValidTarget(Q.Range) && Q.IsReady())
             {
                 Q.Cast(target);
             }
 
-            if (target.IsValidTarget(E.Range) && E.IsReady()) ;
+            if (target.IsValidTarget(E.Range) && E.IsReady())
             {
                 E.Cast(target);
             }
 
-            if (target.IsValidTarget(E.Range) && E.IsReady()) ;
+            if (target.IsValidTarget(E.Range) && E.IsReady())
             {
                 W.Cast();
             }
 
-            
+
         }
 
         public static void Ultimate()
         {
             var target = SimpleTs.GetTarget(R.Range, SimpleTs.DamageType.Physical);
 
-            if (target.IsValidTarget(R.Range) && R.IsReady());
+            if (target.IsValidTarget(R.Range) && R.IsReady())
             {
                 R.Cast(target);
             }
@@ -150,13 +145,13 @@ namespace ANSkarner
         {
             foreach (var hero in ObjectManager.Get<Obj_AI_Hero>().Where(hero => hero.IsValidTarget(Q.Range)))
             {
-                if (Q.IsReady() && hero.Distance(ObjectManager.Player) <= Q.Range && DamageLib.getDmg(hero, DamageLib.SpellType.Q) >= hero.Health)
+                if (Q.IsReady() && hero.Distance(ObjectManager.Player) <= Q.Range && ObjectManager.Player.GetSpellDamage(hero, SpellSlot.Q) >= hero.Health)
                 {
                     Q.CastOnUnit(hero, AN.Item("useQKS").GetValue<bool>());
 
                 }
 
-                if (E.IsReady() && hero.Distance(ObjectManager.Player) <= E.Range && DamageLib.getDmg(hero, DamageLib.SpellType.E) >= hero.Health)
+                if (E.IsReady() && hero.Distance(ObjectManager.Player) <= E.Range && ObjectManager.Player.GetSpellDamage(hero, SpellSlot.E) >= hero.Health)
                 {
                     E.CastOnUnit(hero, AN.Item("useEKS").GetValue<bool>());
 
@@ -167,3 +162,4 @@ namespace ANSkarner
 
     }
 }
+
