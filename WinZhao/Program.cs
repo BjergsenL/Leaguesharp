@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
 using Color = System.Drawing.Color;
+
 namespace WinZhao
 {
     class Program
@@ -19,7 +14,6 @@ namespace WinZhao
         public static Items.Item hydra = new Items.Item(3074, 400);
         public static Items.Item tiamat = new Items.Item(3077, 400);
         public static Items.Item BoRK = new Items.Item(3153, 400);
-        private static SpellSlot IgniteSlot;
 
 
         public static Menu AN;
@@ -53,7 +47,7 @@ namespace WinZhao
             AN.SubMenu("Combo").AddItem(new MenuItem("useW", "Use W?").SetValue(true));
             AN.SubMenu("Combo").AddItem(new MenuItem("useE", "Use E?").SetValue(true));
             AN.SubMenu("Combo").AddItem(new MenuItem("ComboActive", "Combo").SetValue(new KeyBind(32, KeyBindType.Press)));
-            
+
             //KS Menu
             AN.AddSubMenu(new Menu("KillSteal", "Ks"));
             AN.SubMenu("Ks").AddItem(new MenuItem("ActiveKs", "Use KillSteal")).SetValue(true);
@@ -121,8 +115,8 @@ namespace WinZhao
         public static void KillSteal()
         {
             var target = SimpleTs.GetTarget(R.Range, SimpleTs.DamageType.Physical);
-            var igniteDmg = DamageLib.getDmg(target, DamageLib.SpellType.IGNITE);
-            var RDmg = DamageLib.getDmg(target, DamageLib.SpellType.R);
+            var igniteDmg = ObjectManager.Player.GetSummonerSpellDamage(target, Damage.SummonerSpell.Ignite);
+            var RDmg = ObjectManager.Player.GetSpellDamage(target, SpellSlot.R);
 
             {
                 if (AN.Item("UseRKS").GetValue<bool>() && target != null && R.IsReady() && target.IsValidTarget(180))
