@@ -45,7 +45,7 @@ namespace ANSkarner
             E = new Spell(SpellSlot.E, 1000);
             R = new Spell(SpellSlot.R, 350);
 
-            E.SetSkillshot(0.5f, 60f, 1200f, false, SkillshotType.SkillshotLine);
+            E.SetSkillshot(0.5f, 60, 1200f, false, SkillshotType.SkillshotLine);
 
             SpellList.Add(Q);
             SpellList.Add(E);
@@ -74,10 +74,15 @@ namespace ANSkarner
             AN.SubMenu("killSteal").AddItem(new MenuItem("useEKS", "Use E").SetValue(true));
 
             //Clear/Farm
-            //AddSubMenu(new Menu("Farming", "Lane/Jungle Clear"));
-            //N.SubMenu("Farming").AddItem(new MenuItem("useQF", "Use Q").SetValue(true));
-            //N.SubMenu("Farming").AddItem(new MenuItem("useEF", "Use E").SetValue(true));
-            //N.SubMenu("Farming").AddItem(new MenuItem("LaneClear", "LaneClear").SetValue(new KeyBind("V".ToCharArray()[0], KeyBindType.Press)));
+           AN.AddSubMenu(new Menu("Farming", "Lane/Jungle Clear"));
+            AN.SubMenu("Farming").AddItem(new MenuItem("useQF", "Use Q").SetValue(true));
+            AN.SubMenu("Farming").AddItem(new MenuItem("useEF", "Use E").SetValue(true));
+           AN.SubMenu("Farming").AddItem(new MenuItem("LaneClear", "LaneClear").SetValue(new KeyBind("V".ToCharArray()[0], KeyBindType.Press)));
+
+            //Misc
+           AN.AddSubMenu(new Menu("Misc", "Misc"));
+           AN.SubMenu("Misc").AddItem(new MenuItem("turretR", "Auto R Under turret").SetValue(true));
+
 
 
 
@@ -107,13 +112,23 @@ namespace ANSkarner
                 Ultimate();
             }
 
-          
+            if (AN.Item("LaneClear").GetValue<KeyBind>().Active)
+            {
+                Farming();
+            }
+
+            if (AN.Item("towerR").GetValue<bool>())
+                TurretR();
+
+
 
         }
         private static void Combo()
         {
             var target = SimpleTs.GetTarget(E.Range, SimpleTs.DamageType.Physical);
             if (target == null) return;
+
+
 
             if (target.IsValidTarget(Q.Range) && Q.IsReady()) ;
             {
@@ -133,18 +148,60 @@ namespace ANSkarner
 
         }
 
+        private static void Farming()
+        {
+
+            var useQ = AN.Item("UseQF").GetValue<bool>();
+            var useE = AN.Item("UseEF").GetValue<bool>();
+
+            var allMinionsE = MinionManager.GetMinions(ObjectManager.Player.ServerPosition, E.Range + E.Width, MinionTypes.All, MinionTeam.NotAlly);
+            var allMinionsQ = MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Q.Range, MinionTypes.All, MinionTeam.NotAlly);
+
+            if (useQ && Q.IsReady())
+            {
+                var qPos = Q.GetCircularFarmLocation(allMinionsQ);
+                if (qPos.MinionsHit >= 2)
+                    Q.Cast(qPos.Position, true);
+            }
+
+            if (useE && E.IsReady())
+            {
+              var ePos = E.GetLineFarmLocation(allMinionsE);
+              if (ePos.MinionsHit >= 3)
+                    E.Cast(ePos.Position, true);
+            }
+
+
+        }
+
         public static void Ultimate()
         {
             var target = SimpleTs.GetTarget(R.Range, SimpleTs.DamageType.Physical);
 
-            if (target.IsValidTarget(R.Range) && R.IsReady()) ;
+            if (target.IsValidTarget(R.Range) && R.IsReady());
             {
                 R.Cast(target);
             }
 
         }
-        //private static void KS()
-        
-
+        public static void TurretR()
+        {
+        foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>())
+     {
+                if (enemy.IsEnemy && Player.Distance(enemy.ServerPosition) <= R.Range && enemy != null)
+     {
+        foreach (var turret in ObjectManager.Get<Obj_AI_Turret>())
+     {
+           if (turret != null && turret.IsValid && turret.IsAlly && turret.Health > 0)
+          {
+         if (Vector2.Distance(enemy.Position.To2D(), turret.Position.To2D()) < 950)
+     {
+        R.CastOnUnit(enemy);
+             }
+            }
+               }
+              }
+           }
+       }
     }
 }
